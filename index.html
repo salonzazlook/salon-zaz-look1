@@ -17,7 +17,7 @@
 
         .serif { font-family: 'Playfair Display', serif; }
 
-        /* Animations de flottaison et scintillement */
+        /* Animations dyal l-float w l-shimmer */
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-8px); }
@@ -52,7 +52,7 @@
         .icon-pulse { animation: pulse-subtle 3s ease-in-out infinite; }
         .icon-bounce { animation: icon-bounce 2s ease-in-out infinite; }
         
-        /* Effet de verre 3D */
+        /* Glassmorphism Effect */
         .glass-3d {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(12px);
@@ -87,33 +87,43 @@
         .insta-gradient { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
         .wa-color { background: #25D366; }
 
-        /* Styles de la fenêtre modale WiFi */
-        #wifi-modal {
+        /* Modals Generic Style */
+        .modal-overlay {
             display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.85);
+            background: rgba(0, 0, 0, 0.9);
             backdrop-filter: blur(10px);
-            z-index: 200;
+            z-index: 500;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
 
-        #wifi-modal.show { display: flex; }
+        .modal-overlay.show { display: flex; }
 
         .modal-content {
             background: rgba(25, 25, 25, 0.98);
             border: 1px solid rgba(212, 175, 55, 0.4);
             border-radius: 35px;
-            padding: 25px;
+            padding: 20px;
             width: 100%;
-            max-width: 320px;
+            max-width: 340px;
             text-align: center;
             box-shadow: 0 25px 60px rgba(0,0,0,0.9);
         }
 
-        /* Notification de copie */
+        .image-modal-content {
+            background: rgba(25, 25, 25, 0.98);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 30px;
+            padding: 10px;
+            width: 100%;
+            max-width: 360px;
+            box-shadow: 0 25px 60px rgba(0,0,0,1);
+        }
+
+        /* Toast Copy */
         #copy-toast {
             visibility: hidden;
             background-color: #d4af37;
@@ -122,7 +132,7 @@
             border-radius: 20px;
             padding: 5px 15px;
             position: fixed;
-            z-index: 300;
+            z-index: 600;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -143,39 +153,62 @@
 
     <div id="copy-toast">Copié !</div>
 
-    <!-- Fenêtre Modale WiFi -->
-    <div id="wifi-modal" onclick="closeModal(event)">
+    <!-- WiFi Modal -->
+    <div id="wifi-modal" class="modal-overlay" onclick="closeWiFiModal()">
         <div class="modal-content glass-3d" onclick="event.stopPropagation()">
             <div class="w-14 h-14 icon-box bg-gradient-to-br from-blue-400 to-blue-700 text-white mx-auto mb-4 icon-pulse">
                 <i data-lucide="wifi" class="w-7 h-7"></i>
             </div>
             <h2 class="serif text-xl text-[#d4af37] mb-1 uppercase tracking-widest text-center">WiFi Gratuit</h2>
-            <p class="text-gray-400 text-[10px] mb-5 font-medium text-center italic">Service Salon Zaz Look</p>
+            <p class="text-gray-400 text-[10px] mb-5 font-medium text-center italic">BESTONE Network</p>
             
             <div class="space-y-4">
-                <!-- Nom du Réseau -->
                 <div class="bg-white/5 rounded-2xl p-3 border border-white/5">
-                    <p class="text-[9px] text-gray-500 uppercase tracking-tighter mb-1 font-bold text-center">Nom du réseau</p>
-                    <p class="text-lg font-bold tracking-widest text-white text-center">BESTONE</p>
+                    <p class="text-[9px] text-gray-500 uppercase tracking-tighter mb-1 font-bold">Nom du réseau</p>
+                    <p class="text-lg font-bold tracking-widest text-white">BESTONE</p>
                 </div>
-
-                <!-- Mot de passe -->
                 <div class="bg-black/40 rounded-2xl p-4 border border-blue-500/20 group active:scale-95 transition-transform cursor-pointer relative overflow-hidden" onclick="copyWiFiPassword()">
-                    <div class="absolute inset-0 bg-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                    <p class="text-[9px] text-gray-500 uppercase tracking-tighter mb-1 font-bold text-center">Mot de passe</p>
-                    <p id="password-text" class="text-xl font-bold tracking-widest text-white text-center">Zazlook2020@</p>
+                    <p class="text-[9px] text-gray-500 uppercase tracking-tighter mb-1 font-bold">Mot de passe</p>
+                    <p class="text-xl font-bold tracking-widest text-white">Zazlook2020@</p>
                     <p class="text-[8px] text-[#d4af37] mt-2 font-bold uppercase italic animate-pulse text-center">Cliquer pour copier</p>
                 </div>
             </div>
+            <button onclick="closeWiFiModal()" class="w-full mt-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest">Fermer</button>
+        </div>
+    </div>
 
-            <button onclick="closeModal(event)" class="w-full mt-6 py-3 rounded-full bg-white/5 border border-white/10 text-white text-[10px] font-bold uppercase tracking-widest hover:bg-white/10 transition-colors">
-                Fermer
-            </button>
+    <!-- Esthetique Tarif Modal -->
+    <div id="esthetique-modal" class="modal-overlay" onclick="closeEsthetiqueModal()">
+        <div class="image-modal-content glass-3d" onclick="event.stopPropagation()">
+            <div class="relative w-full rounded-[20px] overflow-hidden">
+                <img src="https://i.postimg.cc/7hhRrkSq/8cbd8e15-c93e-492a-b2b4-65fd0064b8ea.jpg" 
+                     alt="[Tarif Esthétique]" 
+                     class="w-full h-auto object-contain">
+                <button onclick="closeEsthetiqueModal()" class="absolute top-3 right-3 bg-black/50 backdrop-blur-md p-1.5 rounded-full border border-white/20 text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-[10px] text-gray-400 py-3 uppercase tracking-widest font-bold text-center">Salon Zaz Look - Esthétique</p>
+        </div>
+    </div>
+
+    <!-- Coiffure Tarif Modal -->
+    <div id="coiffure-modal" class="modal-overlay" onclick="closeCoiffureModal()">
+        <div class="image-modal-content glass-3d" onclick="event.stopPropagation()">
+            <div class="relative w-full rounded-[20px] overflow-hidden">
+                <img src="https://i.postimg.cc/tgPy8hpc/b9cbf407-8fdd-42af-b2ff-442adc3e2c81.jpg" 
+                     alt="[Tarif Coiffure]" 
+                     class="w-full h-auto object-contain">
+                <button onclick="closeCoiffureModal()" class="absolute top-3 right-3 bg-black/50 backdrop-blur-md p-1.5 rounded-full border border-white/20 text-white">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <p class="text-[10px] text-gray-400 py-3 uppercase tracking-widest font-bold text-center">Salon Zaz Look - Coiffure</p>
         </div>
     </div>
 
     <div class="w-full max-w-sm py-2">
-        <!-- En-tête -->
+        <!-- Logo & Title -->
         <div class="text-center mb-6">
             <div class="relative inline-block animate-float">
                 <div class="w-20 h-20 rounded-full p-0.5 bg-gradient-to-tr from-[#b8860b] via-[#f9e2af] to-[#d4af37] shadow-[0_0_20px_rgba(212,175,55,0.4)]">
@@ -188,7 +221,7 @@
                 <div class="absolute bottom-0 right-0 bg-green-500 w-4 h-4 rounded-full border-2 border-[#0a0a0a] shadow-lg animate-pulse"></div>
             </div>
             
-            <div class="mt-3 flex justify-center overflow-hidden px-1 text-center">
+            <div class="mt-3 flex justify-center overflow-hidden px-1">
                 <h1 class="serif text-2xl sm:text-3xl animate-text-shimmer tracking-widest uppercase leading-tight whitespace-nowrap drop-shadow-lg text-center">
                     SALON ZAZ LOOK
                 </h1>
@@ -196,10 +229,10 @@
             <p class="text-gray-400 text-[9px] mt-1 uppercase tracking-[0.4em] font-light italic text-center">L'Art de la Beauté Femme</p>
         </div>
 
-        <!-- Grille de navigation -->
+        <!-- Links Grid -->
         <div class="grid grid-cols-2 gap-3 px-1">
             
-            <!-- WhatsApp Yasser (Remplacement de Simo) -->
+            <!-- WhatsApp Yasser -->
             <a href="https://wa.me/212691382680" target="_blank" class="col-span-2 glass-3d flex items-center p-4 rounded-[1.8rem] group border-[#25D366]/20">
                 <div class="w-11 h-11 icon-box wa-color text-white shadow-lg icon-pulse">
                     <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
@@ -213,36 +246,36 @@
             </a>
 
             <!-- Tarifs Esthétique -->
-            <a href="#" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group border-pink-500/20 text-center">
+            <div onclick="openEsthetiqueModal()" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group border-pink-500/20 text-center cursor-pointer">
                 <div class="w-11 h-11 icon-box border border-pink-500/20 mb-2 icon-bounce">
-                    <img src="https://i.postimg.cc/fRLQBWnj/IMG-9075.jpg" alt="Tarifs Esthétique" class="w-full h-full object-cover">
+                    <img src="https://i.postimg.cc/fRLQBWnj/IMG-9075.jpg" alt="[Tarifs Esthétique]" class="w-full h-full object-cover">
                 </div>
-                <span class="block font-bold text-[11px] text-white leading-tight text-center">Tarifs<br>Esthétique</span>
-            </a>
+                <span class="block font-bold text-[11px] text-white leading-tight">Tarifs<br>Esthétique</span>
+            </div>
 
             <!-- Tarif Coiffure -->
-            <a href="#" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group border-orange-500/20 text-center">
+            <div onclick="openCoiffureModal()" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group border-orange-500/20 text-center cursor-pointer">
                 <div class="w-11 h-11 icon-box border border-orange-500/20 mb-2 icon-bounce">
-                    <img src="https://i.postimg.cc/kgcDtgNH/IMG-9073.jpg" alt="Tarif Coiffure" class="w-full h-full object-cover">
+                    <img src="https://i.postimg.cc/kgcDtgNH/IMG-9073.jpg" alt="[Tarif Coiffure]" class="w-full h-full object-cover">
                 </div>
-                <span class="font-bold text-[11px] text-white leading-tight text-center">Tarif<br>Coiffure</span>
-            </a>
+                <span class="font-bold text-[11px] text-white leading-tight">Tarif<br>Coiffure</span>
+            </div>
 
             <!-- Waze -->
             <a href="https://waze.com/ul/hevfwcysr8" target="_blank" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group border-cyan-500/20 text-center">
                 <div class="w-11 h-11 icon-box bg-white border border-cyan-500/20 mb-2 icon-bounce">
-                    <img src="https://i.postimg.cc/yNsY14wP/IMG-9071.png" alt="Waze" class="w-full h-full object-cover">
+                    <img src="https://i.postimg.cc/yNsY14wP/IMG-9071.png" alt="[Waze]" class="w-full h-full object-cover">
                 </div>
-                <span class="font-bold text-[11px] text-white tracking-wide text-center">Waze</span>
+                <span class="font-bold text-[11px] text-white tracking-wide">Waze</span>
             </a>
 
             <!-- Avis Google -->
             <a href="https://www.google.com/search?client=safari&hs=LkB&sca_esv=a598d55f83047397&hl=fr-ma&q=avis+sur+salon+zaz+look&si=AL3DRZEsmMGCryMMFSHJ3StBhOdZ2-6yYkXd_doETEE1OR-qOR58J2hRZzFqT8cAxDaIUjqnQ2EbRVKudyKoa0t2Vg4xz-Jw3QMulE-CZLGj15VaZUo6kHtzsCrE2HlPxKdmrmlT-1Qg&ictx=1" 
                target="_blank" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group border-yellow-500/20 text-center">
                 <div class="w-11 h-11 icon-box border border-yellow-500/20 mb-2 icon-bounce">
-                    <img src="https://i.postimg.cc/HWqmW1Mp/IMG-9067.jpg" alt="Avis Google" class="w-full h-full object-cover">
+                    <img src="https://i.postimg.cc/HWqmW1Mp/IMG-9067.jpg" alt="[Avis Google]" class="w-full h-full object-cover">
                 </div>
-                <span class="block font-bold text-[11px] text-white text-center">Avis Google</span>
+                <span class="block font-bold text-[11px] text-white">Avis Google</span>
             </a>
 
             <!-- Instagram -->
@@ -250,33 +283,32 @@
                 <div class="w-11 h-11 icon-box insta-gradient text-white mb-2 icon-pulse">
                     <i data-lucide="instagram" class="w-6 h-6"></i>
                 </div>
-                <span class="font-bold text-[11px] text-center">Instagram</span>
+                <span class="font-bold text-[11px]">Instagram</span>
             </a>
 
             <!-- WiFi Gratuit -->
-            <div onclick="openModal()" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group text-center cursor-pointer">
+            <div onclick="openWiFiModal()" class="glass-3d aspect-square flex flex-col items-center justify-center p-3 rounded-[1.8rem] group text-center cursor-pointer">
                 <div class="w-11 h-11 icon-box bg-gradient-to-br from-blue-400 to-blue-700 text-white mb-2 icon-pulse">
                     <i data-lucide="wifi" class="w-6 h-6"></i>
                 </div>
-                <span class="font-bold text-[11px] text-white uppercase leading-tight text-center">WiFi Gratuit</span>
+                <span class="font-bold text-[11px] text-white uppercase leading-tight">WiFi Gratuit</span>
             </div>
 
         </div>
 
-        <!-- Pied de page -->
+        <!-- Footer -->
         <div class="mt-6 text-center">
             <div class="h-[1px] w-1/5 bg-gradient-to-r from-transparent via-gray-700 to-transparent mx-auto mb-3"></div>
             <p class="text-gray-600 text-[8px] tracking-[0.4em] uppercase font-bold text-center">Salon Zaz Look • Casablanca • 2026</p>
         </div>
     </div>
 
-    <!-- Zone temporaire pour la copie -->
     <textarea id="temp-copy" style="position:absolute; left:-9999px; top:0;"></textarea>
 
     <script>
         lucide.createIcons();
         
-        // Effet de parallaxe 3D
+        // 3D Parallax effect
         document.addEventListener('mousemove', (e) => {
             const cards = document.querySelectorAll('.glass-3d');
             const x = (window.innerWidth / 2 - e.pageX) / 75;
@@ -286,23 +318,25 @@
             });
         });
 
-        // Contrôles de la fenêtre modale WiFi
-        function openModal() {
-            document.getElementById("wifi-modal").classList.add("show");
-        }
+        // WiFi Modal
+        function openWiFiModal() { document.getElementById("wifi-modal").classList.add("show"); }
+        function closeWiFiModal() { document.getElementById("wifi-modal").classList.remove("show"); }
 
-        function closeModal(e) {
-            document.getElementById("wifi-modal").classList.remove("show");
-        }
+        // Coiffure Modal
+        function openCoiffureModal() { document.getElementById("coiffure-modal").classList.add("show"); }
+        function closeCoiffureModal() { document.getElementById("coiffure-modal").classList.remove("show"); }
 
-        // Fonction de copie du mot de passe
+        // Esthetique Modal
+        function openEsthetiqueModal() { document.getElementById("esthetique-modal").classList.add("show"); }
+        function closeEsthetiqueModal() { document.getElementById("esthetique-modal").classList.remove("show"); }
+
+        // Copy function
         function copyWiFiPassword() {
             const password = "Zazlook2020@";
             const textArea = document.getElementById("temp-copy");
             textArea.value = password;
             textArea.select();
             document.execCommand('copy');
-            
             const toast = document.getElementById("copy-toast");
             toast.classList.add("show");
             setTimeout(() => { toast.classList.remove("show"); }, 2000);
